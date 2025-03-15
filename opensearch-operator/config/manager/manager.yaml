@@ -3,13 +3,13 @@ kind: Namespace
 metadata:
   labels:
     control-plane: controller-manager
-  name: system
+  name: opensearch-operator
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: controller-manager
-  namespace: system
+  namespace: opensearch-operator
   labels:
     control-plane: controller-manager
 spec:
@@ -29,7 +29,7 @@ spec:
         - /manager
         args:
         - --leader-elect
-        image: controller:latest
+        image: opensearchproject/opensearch-k8s-operator:latest
         name: manager
         securityContext:
           allowPrivilegeEscalation: false
@@ -54,3 +54,6 @@ spec:
             memory: 20Mi
       serviceAccountName: controller-manager
       terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+        - name: my-registry-secret
+  

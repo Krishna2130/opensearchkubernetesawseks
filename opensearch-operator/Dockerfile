@@ -28,4 +28,15 @@ WORKDIR /
 COPY --from=builder /workspace/manager .
 USER 65532:65532
 
-ENTRYPOINT ["/manager"]
+# Build stage
+FROM golang:1.22.1 AS builder
+
+WORKDIR /workspace
+COPY . .
+RUN go mod tidy && go build -o opensearch-operator main.go
+
+# Final stage
+FROM debian:bullseye-slim
+WORKDIR /
+COPY --from=builder /workspace/opensearch-operator /usr/local/bin/opensearch-operator
+ENTRYPOINT ["/usr/local/bin/opensearch-operator"]
