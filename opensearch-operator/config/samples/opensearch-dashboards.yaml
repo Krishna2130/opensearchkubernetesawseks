@@ -1,0 +1,9 @@
+apiVersion: k8s.opensearch.org/v1
+kind: OpenSearchDashboards
+metadata:
+  name: opensearch-dashboards
+  namespace: opensearch-operator
+spec:
+  version: "2.9.0"
+  opensearchCluster: opensearch-cluster
+

@@ -1,0 +1,31 @@
+apiVersion: opensearch.opster.io/v1
+kind: OpenSearchCluster
+metadata:
+  name: opensearch-cluster
+  namespace: opensearch-operator
+spec:
+  general:
+    version: "2.11.0"  # OpenSearch version
+    serviceName: "opensearch-service"  # Required field
+  
+  dashboards:
+    enable: true
+    version: "2.11.0"  # Required field
+    replicas: 1  # Required field
+
+  nodePools:
+    - component: masters  # Defines the node role
+      replicas: 3
+      diskSize: 30Gi
+      roles: 
+        - master
+        - data
+        - ingest
+      resources:
+        limits:
+          cpu: "1000m"
+          memory: "4Gi"
+        requests:
+          cpu: "500m"
+          memory: "2Gi"
+

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: opensearch
+  namespace: opensearch-operator
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 9200
+      targetPort: 9200
+      protocol: TCP
+  selector:
+    app: opensearch
+
